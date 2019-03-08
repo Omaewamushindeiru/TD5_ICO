@@ -30,41 +30,42 @@ contract BananeToken is StandardToken, Ownable{
         return totalSupply_;
     }
 
-  function balanceOf(address tokenOwner) public view returns (uint) {
-    return balances[tokenOwner];
-  }
+    function balanceOf(address tokenOwner) public view returns (uint)
+    {
+        return balances[tokenOwner];
+    }
 
 
-  function allowance(address owner,
-                  address delegate) public view returns (uint) {
-  return allowed[owner][delegate];
-}
+    function allowance(address owner,address delegate) public view returns (uint)
+    {
+        return allowed[owner][delegate];
+    }
 
-  function transfer(address receiver,uint numTokens) public returns (bool) {
-    require(numTokens <= balances[msg.sender]);
-    balances[msg.sender] = balances[msg.sender] - numTokens;
-    balances[receiver] = balances[receiver] + numTokens;
-    emit Transfer(msg.sender, receiver, numTokens);
-    return true;
-}
-  public view returns (uint);
+    function transfer(address receiver,uint numTokens) public returns (bool)
+     {
+        require(numTokens <= balances[msg.sender]);
+        balances[msg.sender] = balances[msg.sender] - numTokens;
+        balances[receiver] = balances[receiver] + numTokens;
+        emit Transfer(msg.sender, receiver, numTokens);
+        return true;
+    }
 
-  function approve(address delegate,
-                uint numTokens) public returns (bool) {
-  allowed[msg.sender][delegate] = numTokens;
-  emit Approval(msg.sender, delegate, numTokens);
-  return true;
- }
+    function approve(address delegate, uint numTokens) public returns (bool)
+  {
+        allowed[msg.sender][delegate] = numTokens;
+        emit Approval(msg.sender, delegate, numTokens);
+        return true;
+    }
 
 
-  function transferFrom(address owner, address buyer,uint numTokens) public returns (bool) {
-  require(numTokens <= balances[owner]);
-  require(numTokens <= allowed[owner][msg.sender]);
-  balances[owner] = balances[owner] — numTokens;
-  allowed[owner][msg.sender] =
-        allowed[from][msg.sender] — numTokens;
-  balances[buyer] = balances[buyer] + numTokens;
-  Transfer(owner, buyer, numTokens);
-  return true;
-}
+    function transferFrom(address owner, address buyer,uint numTokens) public returns (bool)
+  {
+        require(numTokens <= balances[owner]);
+        require(numTokens <= allowed[owner][msg.sender]);
+        balances[owner] = balances[owner] - numTokens;
+        allowed[owner][msg.sender] = allowed[buyer][msg.sender] - numTokens;
+        balances[buyer] = balances[buyer] + numTokens;
+        emit Transfer(owner, buyer, numTokens);
+        return true;
+    }
 }
